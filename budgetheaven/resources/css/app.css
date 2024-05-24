@@ -1,0 +1,4 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "~summernote/dist/summernote-bs4.min.css";
