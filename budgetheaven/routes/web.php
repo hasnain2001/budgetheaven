@@ -33,89 +33,60 @@ use App\Models\Blog;
 
 
 Route::get('/', function () {
-    return view('welcome'); // 'welcome' refers to the view file for the home page
+    return view('welcome');
 });
 
 Route::get('/about', function () {
-    // Your logic for the about page
+
     return view('about');
 })->name('about');
 Route::get('/network', function () {
-    // Your logic for the about page
+
     return view('network');
 })->name('network');
 Route::get('/tables', function () {
-    // Your logic for the about page
+
     return view('tables');
 })->name('tables');
 Route::get('/contact', function () {
-    // Your logic for the about page
+
     return view('contact');
 })->name('contact');
 
 Route::get('/terms_and_condition', function () {
-    // Your logic for terms and conditions page
+
     return view('terms_and_condition');
 })->name('terms_and_condition');
 
 
 Route::get('/privacy', function () {
-    // Your logic for terms and conditions page
+
     return view('privacy');
 })->name('privacy');
 
-// Route for the contact
+Route::get('/404', function () {  return view('privacy');
+})->name('privacy');
+
+Route::get('coupons', [CouponsController::class, 'index'])->name('coupons.index');
+Route::put('/updateCoupon/{id}', [CouponsController::class, 'update'])->name('updateCoupon');
+Route::post('/update-clicks', [CouponsController::class, 'updateClicks'])->name('update.clicks');
+Route::get('/clicks/{couponId}', [CouponsController::class, 'openCoupon'])->name('open.coupon');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
-
 Route::get('/top-stores', [HomeController::class, 'topStores'])->name('top_stores');
 Route::post('/coupons', [CouponsController::class, ''])->name('coupons.updateRanking');
-
-
-// Route for the blog homepage
 Route::get('/blog', [BlogController::class, 'blog_home'])->name('blog');
 Route::get('/blog/{title}', [BlogController::class, 'blog_show'])->name('blog-details');
 Route::get('/categories', [HomeController::class, 'categories'])->name('categories');
 Route::get('/related_category/{meta_tag}', [HomeController::class, 'viewcategory'])->name('related_category');
-
-
-
-
-// Route for the search homepage
-// Route for search
 Route::get('/search', [SearchController::class, 'searchResults'])->name('search');
 
 
 
 
-// web.php
-
-
-
-
-// Define your routes
-Route::prefix('admin',)->group(function () {
-    Route::get('/Blog', [BlogController::class, 'blogs'])->name('admin.blog');
-    Route::get('/Blog/create', [BlogController::class, 'create'])->name('admin.blog.create');
-    Route::post('/Blog/store', [BlogController::class, 'store'])->name('admin.blog.store');
-    Route::get('/Blog/{id}/edit', [BlogController::class, 'edit'])->name('admin.blog.edit');
-    Route::post('/admin/Blog/update/{id}', [BlogController::class, 'update'])->name('admin.Blog.update');
-    Route::delete('/admin/Blog/{id}', [BlogController::class, 'destroy'])->name('admin.blog.delete');
-       Route::post('/blog/deleteSelected', [BlogController::class, 'deleteSelected'])->name('admin.blog.deleteSelected');
-    Route::delete('/blog/bulk-delete', [BlogController::class, 'deleteSelected'])->name('admin.blog.bulkDelete');
-   
-
-
-});
-
-
-
 Route::get('/run-migrations', function () {
     $exitCode = Artisan::call('migrate:fresh');
-
-    // Capture the output of the command
-    $output = Artisan::output();
-
+       $output = Artisan::output();
     return "Exit Code: $exitCode <br> Output: <pre>$output</pre>";
 });
 
@@ -137,7 +108,17 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
+// AdminBlogs Routes Begin
+Route::controller(BlogController::class)->prefix('admin')->group(function () {
+    Route::get('/blog',  'blogs')->name('admin.blog');
+    Route::get('/blog/create',  'create')->name('admin.blog.create');
+    Route::post('/blog/store', 'store')->name('admin.blog.store');
+    Route::get('/blog/{id}/edit', 'edit')->name('admin.blog.edit');
+    Route::post('/admin/Blog/update/{id}', 'update')->name('admin.Blog.update');
+    Route::delete('/admin/Blog/{id}', [BlogController::class, 'destroy'])->name('admin.blog.delete');
+       Route::post('/blog/deleteSelected', [BlogController::class, 'deleteSelected'])->name('admin.blog.deleteSelected');
+    Route::delete('/blog/bulk-delete', [BlogController::class, 'deleteSelected'])->name('admin.blog.bulkDelete');
+});
 // Stores Routes Begin
 Route::controller(StoresController::class)->prefix('admin')->group(function () {
     Route::get('/store', 'store')->name('admin.store');
@@ -146,8 +127,9 @@ Route::controller(StoresController::class)->prefix('admin')->group(function () {
     Route::get('/store/edit/{id}', 'edit_store')->name('admin.store.edit');
     Route::post('/store/update/{id}', 'update_store')->name('admin.store.update');
     Route::get('/store/delete/{id}', 'delete_store')->name('admin.store.delete');
+    Route::post('/store/deleteSelected', 'deleteSelected')->name('admin.store.deleteSelected');
 });
-Route::post('/store/deleteSelected', [StoresController::class, 'deleteSelected'])->name('admin.store.deleteSelected');
+
 
 // Categories Routes Begin
 Route::controller(CategoriesController::class)->prefix('admin')->group(function () {
@@ -172,8 +154,7 @@ Route::controller(NetworksController::class)->prefix('admin')->group(function ()
 });
 
 // Coupons Routes Begin
-Route::get('coupons', [CouponsController::class, 'index'])->name('coupons.index');
-Route::put('/updateCoupon/{id}', [CouponsController::class, 'update'])->name('updateCoupon');
+
 
 Route::controller(CouponsController::class)->prefix('admin')->group(function () {
     Route::get('/coupon', 'coupon')->name('admin.coupon');

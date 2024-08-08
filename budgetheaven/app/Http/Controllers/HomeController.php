@@ -7,14 +7,21 @@ use App\Models\Coupons;
 use App\Models\Stores;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
       public function index() {
-    $stores = Stores::latest()->paginate(15);
+    $stores = Stores::latest()->paginate(18);
     $categories = Categories::all();
     $blogs = Blog::latest()->paginate();
-      $Coupons = Coupons::latest()->paginate(15);
+    $Coupons  = Coupons::whereIn('id', function($query) {
+        $query->select(DB::raw('MAX(id)'))
+              ->from('coupons')
+              ->groupBy('store');
+    })
+    ->orderBy('created_at', 'desc')
+    ->paginate(21);
     return view('home', compact('stores', 'categories', 'blogs','Coupons'));
 }
 public function topStores(Request $request)
@@ -23,25 +30,25 @@ public function topStores(Request $request)
 
     return view('home', compact('topstores'));
 }
-    
+
        public function search(Request $request) {
         $query = $request->input('query');
-    
+
         // Check if there is a store with a matching name
         $store = Stores::where('name', $query)->first();
-    
+
         if ($store) {
             // If a store is found, redirect to the store details page
             return redirect()->route('store.details', ['name' => $store->name]);
         }
-    
-    
+
+
         // If no store or category is found, display the regular search results page
         $stores = Stores::where('name', 'like', "$query%")->latest()->get();
-    
+
         return view('search_results', compact('stores'));
     }
-    
+
 
     public function stores(Request $request)
 {
@@ -68,7 +75,7 @@ public function topStores(Request $request)
         $store = Stores::where('name', $title)->first();
         return view('store_details', compact('store', 'coupons'));
     }
-    
+
      public function categories() {
         $categories = Categories::all();
         return view('categories', compact('categories'));
@@ -77,18 +84,18 @@ public function topStores(Request $request)
         $category = Categories::all();
         return view('categories', compact('category'));
     }
-   
+
 public function viewcategory($title)
 {
     // Convert the meta tag to a slug
     $slug = Str::slug($title);
-    
+
     // Convert the slug back to title case
     $name = ucwords(str_replace('-', ' ', $slug));
-    
+
     // Retrieve stores related to the category
     $stores = Stores::where('category', $name)->get();
-    
+
     // Retrieve all categories
     $categories = Categories::all();
 
@@ -100,5 +107,5 @@ public function viewcategory($title)
 }
 
 
-    
+
 }

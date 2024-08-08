@@ -6,14 +6,14 @@
             <img src="/images/budgetheaven.png" style="width: 150px; height: auto;">
         </a>
         <!-- Move the search bar outside of the collapsible area -->
-      
+
           <form action="{{ route('search') }}" method="GET"  class="d-flex col-md-6 order-lg-last" role="search" style="max-width: 600px;">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="searchInput" name="query">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
         <!-- End of search bar -->
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon bg-white"></span>
+            <span class="navbar-toggler-icon "></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -37,5 +37,5 @@
     </div>
 </nav>
 
-  
+
 

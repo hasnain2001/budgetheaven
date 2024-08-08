@@ -9,7 +9,7 @@ header("X-Robots-Tag:index, follow");
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap CSS -->
-   
+
     <link rel="stylesheet" href="{{asset('cssfile/slider.css')}}">
     <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
    <title>BudgetHeaven - Best Deals and Discounts | BudgetHeaven</title>
@@ -19,26 +19,37 @@ header("X-Robots-Tag:index, follow");
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://budgetheaven.com">
     <link rel="icon" href="{{ asset('images/icons.png') }}" type="image/x-icon">
-    
-        <link rel="stylesheet" href="{{asset('cssfile/slider.css')}}">
-                <link rel="stylesheet" href="{{asset('cssfile/home.css')}}">
-        
+
+    <!-- Preload CSS files -->
+<link rel="preload" href="{{ asset('cssfile/slider.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="{{ asset('cssfile/slider.css') }}"></noscript>
+
+<link rel="preload" href="{{ asset('cssfile/home.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="{{ asset('cssfile/home.css') }}"></noscript>
+
+
     <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-    
+
+
+    <!---  verification for website!--->
+
+    <meta name="verify-admitad" content="1f910f4f6f" />
+
+    <meta name="google-site-verification" content="oLMFpeH6luNynlp25Fb-K98OtDWAziqmt0ugNcfDY64" />
   </head>
   <body>
       <x-nav/>
 <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
    <div class="carousel-inner">
     <div class="carousel-item active">
-   <img src="images/caraosel.png" class="d-block w-100"  alt="...">
+   <img src="{{ asset('images/slidercompress.png') }}" class="d-block w-100"  alt="..." loading="lazy">
     </div>
     <div class="carousel-item">
-      
-    <img src="images/caraosel-1.png" class="d-block w-100"  alt="...">
+
+    <img src="images/caraosel-1.png" class="d-block w-100"  alt="..."  loading="lazy">
     </div>
     <div class="carousel-item">
-      <img src="images/caraosel-2.png" class="d-block w-100" alt="...">
+      <img src="images/caraosel-2.png" class="d-block w-100" alt="..."  loading="lazy">
     </div>
   </div>
   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
@@ -82,100 +93,111 @@ header("X-Robots-Tag:index, follow");
 
 <br>
 <!-- End Exclusive Offer Section -->
-<h2 class="title text-center">Latest Discount Codes & Promo Codes From Popular Stores</h2>
-<div class="logos">
-      <div class="logos-slide">
-             @foreach ($stores as $storeItem)
-  <a href="{{ route('store_details', ['name' => Str::slug($storeItem->name)]) }}" class="text-dark text-decoration-none">
-<img class="rounded-circle" src="{{ asset('uploads/store/' . $storeItem->store_image) }}" alt="{{ $storeItem->name }}" style="width: 300px; height: 250px;" />
-                 </a>
-               
-                            @endforeach
-      </div>
+<div class="container">
+<!-- Start Store Section -->
+<h1 class="title ">Latest Discount Codes & Promo Codes From Popular Stores</h1>
+<div id="storeCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        @foreach ($stores->chunk(6) as $chunk)
+            <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+                <div class="row">
+                    @foreach ($chunk as $storeItem)
+                        <div class="col-md-2 col-sm-4">
+                            <a href="{{ route('store_details', ['name' => Str::slug($storeItem->name)]) }}" class="text-dark text-decoration-none d-flex flex-column align-items-center">
+                                <img class="rounded-circle" src="{{ asset('uploads/store/' . $storeItem->store_image) }}" alt="{{ $storeItem->name }}" style="width: 150px; height: 150px;" loading="lazy">
+                                <span class="mt-2">{{ $storeItem->name }}</span>
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endforeach
     </div>
+    <button class="carousel-control-prev custom-carousel-control" type="button" data-bs-target="#storeCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next custom-carousel-control" type="button" data-bs-target="#storeCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+<!-- End Store Section -->
 
-
-
-
-<!--<div class="logos">-->
-<!--    <div class="logos-slide">-->
-<!--        <ul class="image-list" id="slider">-->
-<!--            @foreach ($stores as $storeItem)-->
-<!--            <li class="image-item">-->
-<!--                <a href="{{ route('store_details', ['name' => Str::slug($storeItem->name)]) }}" class="text-dark text-decoration-none">-->
-<!--<img class="img-fluid rounded-circle" src="{{ asset('uploads/store/' . $storeItem->store_image) }}" alt="{{ $storeItem->name }}" style="width: 300px; height: 250px;" />-->
-<!--                    <span class="fw-bold d-block text-center">{{ $storeItem->name }}</span>-->
-<!--                </a>-->
-<!--            </li>-->
-<!--            @endforeach-->
-<!--        </ul>-->
-<!--    </div>-->
-<!--</div>-->
-
-    
 
     <br><br>
 
 <!-- Coupon Cards Section -->
-<div class="container">
+
   <div class="row mb-4">
-    <div class="col-12 text-center">
-      <h2 class="display-4 fw-bold">Today's Top Trending Coupons & Voucher Codes</h2>
+    <div class="col-12 ">
+      <h2 class="title">Today's Top Trending Coupons & Voucher Codes</h2>
     </div>
   </div>
   <div class="row coupon-grid g-4">
     @foreach ($Coupons as $coupon)
       <div class="col-md-4 col-sm-6">
-        <div class="coupon-card border rounded shadow">
+        <div class="coupon-card  h-100 card rounded shadow">
           @php
             // Retrieve associated store and handle unavailable images
             $store = App\Models\Stores::where('name', $coupon->store)->first();
           @endphp
 
-          @if ($store && $store->store_image)
-          <br>
-          <center>
-            <img src="{{ asset('uploads/store/' . $store->store_image) }}" alt="{{ $store->name }} Image" class="img-1 coupon rounded-border" style="width: 250px; height: 250px;"></center>
-          @else
-            <div class="no-image-placeholder bg-light text-center py-4">
-              <i class="fas fa-store-alt fa-3x text-primary"></i>
-            </div>
-          @endif
+          <div class="coupon-header">
+            @if ($store && $store->store_image)
+              <img src="{{ asset('uploads/store/' . $store->store_image) }}"
+                   alt="{{ $store->name }} Image" class="coupon-image"
+                   loading="lazy">
+            @else
+              <div class="no-image-placeholder bg-light text-center py-4">
+                <i class="fas fa-store-alt fa-3x text-primary"></i>
+              </div>
+            @endif
+          </div>
 
           <div class="coupon-body p-4">
-            <h4 class="coupon-store mb-3 text-dark">{{ $coupon->store }}</h4>
-            <p class="coupon-description text-gray-700 mb-3">{{ $coupon->description }}</p>
-           
-               @if ($coupon->code)
-                                    <button type="button" class="btn btn-primary btn-block rounded-pill font-weight-bold text-white" data-bs-toggle="modal" data-bs-target="#codeModal{{ $coupon->id }}" onclick="openCouponInNewTab('{{ $coupon->destination_url }}', '{{ $coupon->id }}')">
-                                        Get Code
-                                    </button>
-                                    @else
-                                    <a href="{{ $coupon->destination_url }}" class="btn btn-primary btn-block rounded-pill font-weight-bold text-white" target="_blank">Get Deal</a>
-                                    @endif
+            <h4 class="coupon-store mb-3 text-dark font-italic">{{ $coupon->store }}</h4>
+            <h6 class="coupon-description font-weight-bold text-gray-700 mb-3">{{ $coupon->description }}</h6>
+
+            @if ($coupon->code)
+              <button type="button" class="getcode"
+                      data-bs-toggle="modal" data-bs-target="#codeModal{{ $coupon->id }}"
+                      onclick="openCouponInNewTab('{{ $coupon->destination_url }}', '{{ $coupon->id }}')">
+                Get Code
+              </button>
+            @else
+              <a href="{{ $coupon->destination_url }}" class="get"
+                 target="_blank">Get Deal</a>
+            @endif
+
+            <a href="{{ route('store_details', ['name' => Str::slug($coupon->store)]) }}"
+               class="get ">Visit Store</a>
           </div>
         </div>
       </div>
-           <div class="modal fade" id="codeModal{{ $coupon->id }}" tabindex="-1" aria-labelledby="exampleModalLabel{{ $coupon->id }}" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h3 class="modal-title" id="exampleModalLabel{{ $coupon->id }}">{{ $coupon->name }}</h3>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <h3>{{ $coupon->code ? $coupon->code : "Code not found" }}</h3>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-dark" onclick="copyCoupon('{{ $coupon->code }}')">Copy</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
+      <!-- Modal for Coupon Code -->
+      <div class="modal fade" id="codeModal{{ $coupon->id }}" tabindex="-1" aria-labelledby="exampleModalLabel{{ $coupon->id }}" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3 class="modal-title" id="exampleModalLabel{{ $coupon->id }}">{{ $coupon->name }}</h3>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <h3>{{ $coupon->code ? $coupon->code : "Code not found" }}</h3>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-dark" onclick="copyCoupon('{{ $coupon->code }}')">Copy</button>
+            </div>
+          </div>
+        </div>
+      </div>
     @endforeach
   </div>
 </div>
+
 
 
 
@@ -193,7 +215,7 @@ header("X-Robots-Tag:index, follow");
             <div class="col mb-3">
                 <a href="{{ url('related_category/'. Str::slug($category->title)) }}" class="text-decoration-none">
                     <div class="container">
-                    <div class="card shadow-sm shadow " style="border-radius: 15px;"> <!-- Adjust the border-radius value to decrease the roundedness -->
+                    <div class="card shadow-sm shadow " style="border-radius: 15px;">
     <div class="card-body text-center">
         <h5 class="card-title mb-0 category-title text-dark">{{ $category->title }}</h5>
         </div>
@@ -220,7 +242,7 @@ header("X-Robots-Tag:index, follow");
     <div class="col-12">
         <div class="container">
         <h2  class="fw-bold home_ts_h2">Populor  Stores</h2></div>
-        <hr> 
+        <hr>
           <div class="container bg-light">
         <div class="col-12 text-end">
             <button id="toggleStoresButton" class="btn get" onclick="toggleStoreContainer()">
@@ -233,9 +255,9 @@ header("X-Robots-Tag:index, follow");
                 <div class="col-12 col-lg-2 col-md-4 col-sm-12 mb-3">
                     <a href="{{ route('store_details', ['name' => Str::slug($storeItem->name)]) }}" class="text-dark text-decoration-none">
                         <div class="stores home_top_stores shadow p-3">
-                            
-                        
-                      
+
+
+
                             <span class="fw-bold">{{ $storeItem->name }}</span>
                         </div>
                     </a>
@@ -314,11 +336,10 @@ header("X-Robots-Tag:index, follow");
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 
-         
+
 <script>
 
-      var copy = document.querySelector(".logos-slide").cloneNode(true);
-      document.querySelector(".logos").appendChild(copy);
+
 
     document.addEventListener('DOMContentLoaded', function() {
         const toggleCategoriesButton = document.getElementById('toggleCategoriesButton');
@@ -334,8 +355,7 @@ header("X-Robots-Tag:index, follow");
             }
         });
     });
-</script>
-<script>
+
     function copyCoupon(code) {
         navigator.clipboard.writeText(code)
             .then(() => {
@@ -345,12 +365,12 @@ header("X-Robots-Tag:index, follow");
                 console.error("Failed to copy: ", error);
             });
     }
-    
+
     function openCouponInNewTab(url, couponId) {
         window.open(url, '_blank');
         var modal = new bootstrap.Modal(document.getElementById('codeModal' + couponId));
         modal.show();
-        
+
         // Automatically close the modal after 5 seconds when hovered over
         setTimeout(function() {
             modal.hide();
