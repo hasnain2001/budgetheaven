@@ -48,7 +48,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="slug">Store Url/Slug <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="slug" id="slug" value="{{ $stores->slug }}" required>
+                                    <input type="text" class="form-control" name="slug" id="slug" value="{{ $stores->slug }}" placeholder="define your store  url/slug " required>
                                 </div>
                                 <div class="form-group">
                                     <label for="description">Description</label>
@@ -112,7 +112,7 @@
                                     <input type="radio" name="status" id="enable" {{ $stores->status == 'enable' ? 'checked' : '' }} value="enable">&nbsp;<label for="enable">Enable</label>
                                     <input type="radio" name="status" id="disable" {{ $stores->status == 'disable' ? 'checked' : '' }} value="disable">&nbsp;<label for="disable">Disable</label>
                                 </div>
-                           
+
                                 <div class="form-group">
                                     <label for="authentication">Authentication</label><br>
                                     <input type="checkbox" name="authentication" id="authentication" {{ $stores->authentication == 'top_stores' ? 'checked' : '' }} value="top_stores">&nbsp;<label for="authentication">Top Store</label>

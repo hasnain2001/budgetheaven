@@ -17,7 +17,7 @@ header("X-Robots-Tag:index, follow");
 <link rel="canonical" href="https://budgetheaven.com/about">
     <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
-         <link rel="icon" href="{{ asset('images/icon.png') }}" type="image/x-icon">
+      
 
 
 

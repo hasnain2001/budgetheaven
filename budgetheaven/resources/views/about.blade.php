@@ -33,6 +33,11 @@ main{
  .footer{
               background-color:red;
         }
+        .custom-thumbnail {
+    border: 8px solid #bebebe; /* Increase the border size and change color if needed */
+    border-radius: 5px; /* Optional: keeps the thumbnail's rounded corners */
+}
+
 
   </style>
 </head>
@@ -51,7 +56,8 @@ main{
   <div class="container">
     <div class="row align-items-center">
       <div class="col-md-6 order-md-2">
-        <img src="{{ asset('images/about.jpg') }}" alt="About Us Image" class="img-fluid rounded mx-auto d-none d-md-block">
+        <img src="{{ asset('images/about.jpg') }}" alt="About Us Image" class="img-fluid custom-thumbnail">
+
       </div>
       <div class="col-md-6 order-md-1">
         <h1 class="display-4">Welcome to Budget Heaven</h1> <p class="lead">Your ultimate destination for savvy shoppers seeking to unlock the secret to saving money while indulging in their favorite shopping sprees. We are more than just a website; we are your trusted companion in the world of discounts, deals, promo codes, bundle offers, comparisons, and invaluable money-saving tips.</p>
