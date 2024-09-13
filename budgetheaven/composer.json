@@ -7,11 +7,13 @@
     "require": {
         "php": "^8.2",
         "guzzlehttp/guzzle": "^7.2",
+        "intervention/image": "*",
         "laravel/breeze": "^1.28",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
-        "laravel/tinker": "^2.8",
-        "spatie/laravel-image-optimizer": "^1.8"
+        "spatie/laravel-image-optimizer": "*",
+        "spatie/laravel-paginateroute": "^2.7",
+        "spatie/laravel-sitemap": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

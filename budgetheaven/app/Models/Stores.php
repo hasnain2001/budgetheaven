@@ -12,6 +12,8 @@ class Stores extends Model
 
     protected $fillable = [
         'name',
+        'slug',
+        'top_store',
         'description',
         'url',
         'destination_url',
@@ -26,8 +28,4 @@ class Stores extends Model
         'store_image',
     ];
 
-    public function categories()
-    {
-        return $this->belongsToMany(Category::class);
-    }
 }

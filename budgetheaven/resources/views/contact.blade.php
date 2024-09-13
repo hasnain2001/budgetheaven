@@ -5,7 +5,7 @@ header("X-Robots-Tag:index, follow");
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
       <title>Contact - Best Deals and Discounts |BudgetHeaven</title>
      <meta name="description" content="Find the best deals, discounts, and coupons on BudgetHeaven. Save money on your favorite products from top brands.">
 
@@ -19,28 +19,8 @@ header("X-Robots-Tag:index, follow");
         <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
          <link rel="icon" href="{{ asset('images/icon.png') }}" type="image/x-icon">
 
-        <!-- Styles -->
-        <link rel="stylesheet" href="{{asset('cssfile/styles.css')}}">
-        <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<style>
-         .navbar-custom {
-      background-color:rgb(240,5,5); /* Bootstrap's red color */
-    }
-    .navbar-custom .navbar-brand,
-    .navbar-custom .nav-link,
-    .navbar-custom .btn {
-      color: #fff;
-    }
-    .navbar-custom .btn-outline-danger {
-      border-color: #fff;
-      color: #fff;
-    }
-    .navbar-custom .btn-outline-danger:hover {
-      background-color: #fff;
-      color: #dc3545;
-    }
-</style>
+
+
 </head>
 <body>
 <x-nav/>
@@ -83,13 +63,13 @@ header("X-Robots-Tag:index, follow");
               <textarea class="form-control" id="message" name="message" rows="8" required></textarea>
             </div>
           </div>
-          <div class="col-12 text-center">
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </div>
+          <button type="submit" class="btn btn-dark btn-lg">Submit</button>
         </form>
       </div>
-      <div class="col-5 mt-4">  <div class="embed-responsive embed-responsive-16by9">
-<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d14469.293474212946!2d67.0583741!3d24.9551104!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2s!4v1715587043123!5m2!1sen!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="col-5 mt-4">
+
+        <div class="embed-responsive embed-responsive-16by9">
+<!-- for map div---->
         </div>
       </div>
     </div>
@@ -100,8 +80,6 @@ header("X-Robots-Tag:index, follow");
 <br>
    <br>
 <x-footer/>
-
-
 
 </body>
 </html>

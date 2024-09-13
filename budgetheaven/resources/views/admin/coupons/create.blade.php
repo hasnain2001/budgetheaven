@@ -3,6 +3,9 @@
     Create
 @endsection
 @section('main-content')
+<style>
+
+</style>
 <div class="content-wrapper">
     <section class="content-header">
         <div class="container-fluid">
@@ -53,16 +56,16 @@
                             <label for="destination_url">Destination URL <span class="text-danger">*</span></label>
                             <input type="url" class="form-control" name="destination_url" id="destination_url" required>
                         </div>
-                        
+
                      <div class="form-group">
-  
+
 </div>
 
                         <div class="form-group">
                             <label for="ending_date">Ending Date <span class="text-danger">*</span></label>
                             <input type="date" class="form-control" name="ending_date" id="ending_date" required>
                         </div>
-                     
+
                     </div>
                 </div>
             </div>
@@ -87,8 +90,8 @@
                             <label for="store">Store <span class="text-danger">*</span></label>
                             <select name="store" id="store" class="form-control" required>
                                 <option value="" disabled selected>--Select Store--</option>
-                                @foreach($stores as $store) 
-                                    <option value="{{ $store->name }}">{{ $store->name }}</option>
+                                @foreach($stores as $store)
+                                    <option value="{{ $store->slug }}">{{ $store->slug }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -101,9 +104,11 @@
             </div>
         </div>
     </form>
+
 </div>
 
     </section>
 </div>
+
 
 @endsection

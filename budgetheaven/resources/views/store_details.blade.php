@@ -15,26 +15,16 @@ header("X-Robots-Tag:index, follow");
   <meta name="author" content="John Doe">
   <meta name="robots" content="index, follow">
   @else
-  <link rel="canonical" href="https://budgetheaven.com/store/">
+  <link rel="canonical" href="https://budgetheaven.com/store/example">
   @endif
 
 
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<link rel="stylesheet" href="{{ asset('cssfile/storedetail.css') }}">
+
 
    <link rel="icon" href="{{ asset('images/icons.png') }}" type="image/x-icon">
-   <link rel="stylesheet" href="{{asset('cssfile/storedetail.css')}}">
-<style>
-.cpn {
-    border: 2px black dotted;
-    padding: 15px;
-}
 
-hr {
-    border: 1px dotted black;
-    margin: 20px 0;
-}
-</style>
+
 
 
 </head>
@@ -43,7 +33,7 @@ hr {
   <x-nav/>
   <!-- End Navbar -->
 
-  <a href="#" class="scroll-to-top text-white">
+  <a href="#" class="scroll-to-top text-white ">
     <i class="fas fa-chevron-up"></i>
   </a>
    @if(session('success'))
@@ -53,159 +43,176 @@ hr {
         <b>{{ session('success') }}</b>
     </div>
     @endif
-  <div class="container mt-5">
-    <div class="container d-flex h-100 align-items-end">
-      @if ($store)
-      <h1 class="text-left">{{ $store->name }}</h1>
-      @else
-      <h5 style="margin-top: 0;">Store name not available</h5>
-      @endif
-
-    </div>
+<div class="contain">
     <hr>
     <div class="row">
-      <div class="col-lg-3 mb-3">
-        @if ($store)
-        <div class="cpn">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-4 col-md-12 mb-2 mb-md-0 text-center">
-                <img src="{{ asset('uploads/store/' . $store->store_image) }}" alt="{{ $store->name }}" class="img-fluid">
-              </div>
-              <div class="col-8 col-md-12">
-                <div class="col-md" style="padding-left: 0;">
-                  @if ($store)
-                  <h5 style="margin-top: 0;">{{ $store->name }}</h5>
-                  @else
-                  <h5 style="margin-top: 0;">Store name not available</h5>
-                  @endif
-                  <div class="rating-stars">
-                    <i class="fas fa-star" data-rating="1"></i>
-                    <i class="fas fa-star" data-rating="2"></i>
-                    <i class="fas fa-star" data-rating="3"></i>
-                    <i class="fas fa-star" data-rating="4"></i>
-                    <i class="fas fa-star" data-rating="5"></i>
-                  </div>
-                  @if ($store->description)
-                  <a href="{{ $store->url }}" target="_blank" class="get btn text-dark">Visit Store</a>
-                  <p class="mt-2 mx-2 store_detail_description d-none d-md-block">{!! $store->description !!}</p>
-                  @endif
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        @endif
-      </div>
-      <div class="col-lg-9">
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-            @foreach ($coupons as $coupon)
-            <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
-                <div class="coupon-card h-100 cpn">
-                    <div class="coupon-image-container d-flex">
-                        @php
-                        $store = App\Models\Stores::where('name', $coupon->store)->first();
-                        @endphp
-                        @if ($store && $store->store_image)
-                        <img src="{{ asset('uploads/store/' . $store->store_image) }}" alt="{{ $store->name }} Image" class="store-image" style="max-width: 100px; height: 100px;">
-                        @else
-                        <span class="no-image-placeholder" style="display: flex; align-items: center; justify-content: center; width: 100px; height: 100px; background-color: #f0f0f0; color: #888; font-size: 14px;">No Image Available</span>
+<div class="col-md-8">
+    <div class="row row-cols-1">
+        @foreach ($coupons as $coupon)
+        <div class="col mb-4">
+            <div class="coupon-card shadow-sm p-3 rounded">
+                <div class="card-body d-flex flex-column flex-md-row align-items-center">
+                    <div class="text-center mb-4 mb-md-0">
+                        @if ($store->store_image)
+                        <img src="{{ asset('uploads/store/' . $store->store_image) }}" class="logo" alt="{{ $store->name }}">
                         @endif
                     </div>
+                    <div class="flex-grow-1 text-left">
+                        <h5 class="text-left">{{ $coupon->name }}</h5>
+                        <p class="text-left mb-3">{{ $coupon->description }}</p>
+                        <span class="used">Used By: {{ $coupon->clicks }}</span>
+                        <br>
+                        <!-- Ensure date is visible and aligned left on mobile -->
 
-                    <div class="coupon-content p-3 flex-grow-1 d-flex flex-column justify-content-between">
-                        <div class="coupon-details">
-                            <h5 class="card-title coupon-title">{{ $coupon->name }}</h5>
-                            <hr  class="my-3 border-top border-dotted">
-                            <p class="card-text coupon-description">{{ $coupon->description }}</p>
-                            <hr class="my-3 border-top border-dotted">
-                        </div>
-                        <div class="coupon-action text-center">
-                            @if ($coupon->code)
-                            <a href="{{ $coupon->destination_url }}" target="_blank" class="get" id="getCode{{ $coupon->id }}" onclick="countAndHandleClicks('{{ $coupon->id }}')">Coupon Code</a>
-
-                            <div class="coupon-card d-flex flex-column flex-grow-1">
-                                <span class="codeindex text-dark" style="display: none;" id="codeIndex{{ $coupon->id }}">{{ $coupon->code }}</span>
-                                <button class="btn btn-danger copy-btn" style="display: none;" id="copyBtn{{ $coupon->id }}" onclick="copyToClipboard('{{ $coupon->id }}')">Copy Code</button>
-                                <p class="text-success copy-confirmation" style="display: none;" id="copyConfirmation{{ $coupon->id }}">Code copied!</p>
-                                <br>
-                                <div class="mt-auto couponuse">
-                                    <p class="used" id="output_{{ $coupon->id }}">Used By: {{ $coupon->clicks }}</p>
-                                </div>
-                                <form method="post" action="{{ route('update.clicks') }}" id="clickForm">
-                                    @csrf
-                                    <input type="hidden" name="coupon_id" id="coupon_id">
-                                </form>
-                            </div>
-                            @else
-                            <a href="{{ $coupon->destination_url }}" onclick="countClicks('{{ $coupon->id }}')" class="get btn btn-success" target="_blank">Get Deal</a>
-                            <p class="used" id="output_{{ $coupon->id }}">Used By: {{ $coupon->clicks }}</p>
-                            @endif
-                        </div>
                     </div>
+                    <div class="ml-auto text-right mt-3 mt-md-0 text-center text-md-right">
+                        @if ($coupon->code)
+                        <div class="mb-2 d-flex flex-column flex-md-row align-items-md-center">
+                            <span id="codeIndex{{ $coupon->id }}" class="badge text-dark scratch">Code: {{ $coupon->code }}</span>
+                            <button class="btn btn-success btn-sm ml-2 d-none" id="copyBtn{{ $coupon->id }}" onclick="copyCouponCode('{{ $coupon->id }}')">Copy Code</button>
+                            <a href="{{ $coupon->destination_url }}" target="_blank" class="getcode text-white btn btn-sm" id="getCode{{ $coupon->id }}" onclick="toggleCouponCode('{{ $coupon->id }}')">Coupon Code</a>
+                            <div id="copyMessage{{ $coupon->id }}" class="alert alert-success mt-2 d-none">Code copied successfully!</div>
+                        </div>
+                        @else
+                        <div class="mb-2 d-flex flex-row justify-content-between align-items-center">
+                            <a href="{{ $coupon->destination_url }}" class="btn-sm btn text-white get" target="_blank" onclick="countClicks('{{ $coupon->id }}')">Get Deal</a>
+                        </div>
+
+                        @endif
+                        <form method="post" action="{{ route('update.clicks') }}" id="clickForm">
+                            @csrf
+                            <input type="hidden" name="coupon_id" id="coupon_id">
+                        </form>
+                          <span class="date" style="color: {{ strtotime($coupon->ending_date) < strtotime(now()) ? '#951d1d' : '#909090' }}">
+                            {{ $coupon->ending_date }}
+                        </span>
+                    </div>
+
                 </div>
             </div>
-            @endforeach
+        </div>
+        @endforeach
+
+
+    </div>
+</div>
+
+
+        <!-- Sidebar with Store Information -->
+        <div class="col-md-4">
+            <div class="store-info-card card shadow-sm p-3 mb-5 bg-white rounded">
+                <div class="text-center">
+                    @if ($store->store_image)
+                    <img src="{{ asset('uploads/store/' . $store->store_image) }}" class="logo img-fluid rounded-circle mb-3" alt="{{ $store->name }}">
+                    @endif
+                </div>
+                <h3 class="text-center font-weight-bold">{{ $store->name }}</h3>
+                <div class="text-center mb-3">
+                    <div class="rating-stars text-warning">
+                        <i class="fas fa-star" data-rating="1"></i>
+                        <i class="fas fa-star" data-rating="2"></i>
+                        <i class="fas fa-star" data-rating="3"></i>
+                        <i class="fas fa-star" data-rating="4"></i>
+                        <i class="fas fa-star text-dark" data-rating="5"></i>
+                    </div>
+                </div>
+                <p class="card-text text-left">{{ $store->description }}</p>
+                <div class="text-center">
+                    <a href="{{ $store->website_url }}" class="get" target="_blank">Visit Website</a>
+                </div>
+            </div>
+            <hr>      {{-- @for ($i = 1; $i <= 5; $i++)
+            @if ($i <= $store->rating)
+                <i class="fas fa-star"></i>
+            @else
+                <i class="far fa-star"></i>
+            @endif
+        @endfor --}}
+            <!-- Related Stores -->
+                 <!-- Related Stores -->
+                 <div class="store-info-card card shadow-sm p-3 mb-5 bg-white rounded">
+                    <h4 class="text-center mb-4">Related Stores</h4>
+                    <div class="row row-cols-2 gy-3">
+                        @foreach ($relatedStores as $relatedStore)
+                        <div class="col">
+                            <div class="text-center">
+                                @if ($relatedStore->store_image)
+                                <img src="{{ asset('uploads/store/' . $relatedStore->store_image) }}" class="logo img-fluid rounded-circle mb-3" alt="{{ $relatedStore->name }}">
+                                @endif
+                                <h5>{{ $relatedStore->name }}</h5>
+                                <br>
+                                @if ($relatedStore->slug)
+                                <a href="{{ route('store_details', ['slug' => Str::slug($relatedStore->slug)]) }}" class="btn-sm get">Visit store</a>
+                                @else
+                                   <p>no slug/url</p>
+                                @endif
+
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
         </div>
     </div>
-
-</div>
-
-
     <br><br>
 </div>
+
 <x-footer/>
+
+
 <script>
-  function countClicks(couponId) {
-    document.getElementById('coupon_id').value = couponId;
-    document.getElementById('clickForm').submit();
-}
+    function toggleCouponCode(couponId) {
+        // Send an AJAX request to update the click count and toggle visibility
+        $.ajax({
+            url: "{{ route('update.clicks') }}", // The route to update clicks
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+                coupon_id: couponId,
+            },
+            success: function(response) {
+                const codeElement = document.getElementById(`codeIndex${couponId}`);
+                const copyButton = document.getElementById(`copyBtn${couponId}`);
 
-function countAndHandleClicks(couponId) {
-    // Count the click
-    document.getElementById('coupon_id').value = couponId;
-    document.getElementById('clickForm').submit();
-
-    // Handle coupon click to show coupon code
-    var couponLink = $('#getCode' + couponId);
-    var couponCode = $('#codeIndex' + couponId);
-    var copyBtn = $('#copyBtn' + couponId);
-
-    // Toggle visibility of link and coupon code span
-    couponLink.hide();
-    couponCode.show();
-    copyBtn.show();
-
-    // Store the clicked state in local storage
-    localStorage.setItem('couponClicked_' + couponId, true);
-}
-
-function copyToClipboard(couponId) {
-    var couponCode = $('#codeIndex' + couponId).text().trim();
-    navigator.clipboard.writeText(couponCode);
-
-    // Change button text to inform user code has been copied
-    $('#copyBtn' + couponId).text('Copied');
-    $('#copyConfirmation' + couponId).show();
-
-    // Reset button text after 2 seconds
-    setTimeout(function() {
-        $('#copyBtn' + couponId).text('Copy Code');
-        $('#copyConfirmation' + couponId).hide();
-    }, 2000);
-}
-
-$(document).ready(function() {
-    // Restore coupon click states from local storage
-    @foreach($coupons as $coupon)
-    var clicked = localStorage.getItem('couponClicked_{{ $coupon->id }}');
-    if (clicked) {
-        $('#getCode{{ $coupon->id }}').hide();
-        $('#codeIndex{{ $coupon->id }}').show();
-        $('#copyBtn{{ $coupon->id }}').show();
+                if (codeElement.classList.contains('scratch')) {
+                    codeElement.classList.remove('scratch');
+                    copyButton.classList.remove('d-none');
+                }
+            },
+            error: function(xhr) {
+                console.error("An error occurred while processing the request:", xhr);
+            }
+        });
     }
-    @endforeach
-});
-</script>
+
+    // Function to copy coupon code to clipboard
+    function copyCouponCode(couponId) {
+    const codeElement = document.getElementById(`codeIndex${couponId}`);
+    const code = codeElement.innerText.trim();
+    const copyMessage = document.getElementById(`copyMessage${couponId}`);
+
+    navigator.clipboard.writeText(code)
+        .then(() => {
+            // Show success message
+            copyMessage.classList.remove('d-none');
+            // Hide the message after 3 seconds
+            setTimeout(() => {
+                copyMessage.classList.add('d-none');
+            }, 3000);
+        })
+        .catch(err => {
+            console.error('Failed to copy: ', err);
+        });
+}
+
+    // Function to count clicks
+    function countClicks(couponId) {
+        document.getElementById('coupon_id').value = couponId;
+        document.getElementById('clickForm').submit();
+    }
+    </script>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 </body>
 </html>

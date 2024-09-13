@@ -3,6 +3,17 @@
     Update
 @endsection
 @section('main-content')
+
+<style>
+    input, textarea {
+        font-weight: bold; /* Makes the text bold */
+        color: #333; /* Dark color for text, adjust as needed */
+    }
+    
+    label {
+        font-weight: bold; /* Makes the label text bold */
+    }
+</style>
 <div class="content-wrapper">
     <section class="content-header">
         <div class="container-fluid">
@@ -44,10 +55,6 @@
                                     <label for="destination_url">Destination URL <span class="text-danger">*</span></label>
                                     <input type="url" class="form-control" name="destination_url" id="destination_url" value="{{ $coupons->destination_url }}">
                                 </div>
-                               
-                                    <div class="form-group">
-                
-                    </div>
                                 <div class="form-group">
                                     <label for="ending_date">Ending Date <span class="text-danger">*</span></label>
                                     <input type="date" class="form-control" name="ending_date" id="ending_date" value="{{ $coupons->ending_date }}">
@@ -74,10 +81,10 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="store">Store <span class="text-danger">*</span></label>
-                                    <select name="store" id="store" class="form-control">
+                                    <select name="store" id="store" class="form-control fw-bold">
                                         <option value="" disabled selected>{{ $coupons->store }}</option>
                                         @foreach($stores as $store) 
-                                            <option value="{{ $store->name }}">{{ $store->name }}</option>
+                                            <option value="{{ $store->slug }}">{{ $store->slug }}</option>
                                         @endforeach
                                     </select>
                                 </div>

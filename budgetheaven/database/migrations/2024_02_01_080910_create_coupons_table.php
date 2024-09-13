@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->longText('description');
-          $table->string('code')->nullable();  
-          $table->integer('sourt')->nullable();
-           $table->longText('destination_url');
+            $table->string('code')->nullable();
+            $table->integer('clicks')->nullable();
+            $table->integer('order')->default(0);
+            $table->longText('destination_url');
             $table->string('ending_date');
             $table->string('status');
             $table->string('authentication');

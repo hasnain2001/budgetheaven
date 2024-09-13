@@ -72,7 +72,8 @@
 <body>
 <div class="container">
     <h2>User Registration</h2>
-    <form method="POST" action="{{ route('register') }}">
+    <p>not allowed</p>
+    {{-- <form method="POST" action="{{ route('register') }}">
         @csrf
 
         <!-- Name -->
@@ -111,14 +112,14 @@
                 @endforeach
             </div>
         @endif
-    </form>
+    </form> --}}
 </div>
 
 <script>
     function togglePasswordVisibility(inputId) {
         const passwordInput = document.getElementById(inputId);
         const toggleButton = passwordInput.nextElementSibling;
-        
+
         if (passwordInput.type === "password") {
             passwordInput.type = "text";
             toggleButton.textContent = "Hide";

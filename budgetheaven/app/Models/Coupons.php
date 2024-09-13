@@ -11,7 +11,8 @@ class Coupons extends Model
 
 protected $fillable = [
     'name',
-        'position',
+    'clicks',
+    'order',
     'description',
     'code',
     'sort',
@@ -20,7 +21,7 @@ protected $fillable = [
     'status',
     'authentication',
     'store',
-   
+
 ];
 
 

@@ -22,6 +22,16 @@
                     <b>{{ session('success') }}</b>
                 </div>
             @endif
+            @if ($errors->any())
+            <div  class="alert alert-danger" >
+                <strong>Validation error(s):</strong>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
             <form name="UpdateCategory" id="UpdateCategory" method="POST" enctype="multipart/form-data" action="{{ route('admin.Blog.update', $blog->id) }}">
                 @csrf
                 <div class="row">
@@ -29,15 +39,19 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label for="title">Category Title <span class="text-danger">*</span></label>
+                                    <label for="title"> Title <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" name="title" id="title" value="{{ $blog->title }}" required>
                                 </div>
-                      
+                                <div class="form-group">
+                                    <label for="slug"> Slug/Url Blog <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="slug" id="title" value="{{ $blog->slug }}" required>
+                                </div>
+
                                 <div class="form-group">
                                     <label for="category_image">Category Image <span class="text-danger">*</span></label>
-                                    <input type="file" class="form-control" name="category_image" id="category_image" required>
+                                    <input type="file" class="form-control" name="category_image" id="category_image">
                                 </div>
-                                <textarea id="summernote" name="content"> <td>{!!$blog->content!!}</td></textarea>
+                                <textarea id="editor" name="content"> <td>{!!$blog->content!!}</td></textarea>
                             </div>
                                  <div class="form-group">
                                     <label for="name">Meta Title<span class="text-danger">*</span></label>
@@ -60,10 +74,10 @@
                         </div>
                         </div>
                     </div>
-                   
+
                     <div class="col-12">
-                        <button type="submit" class="btn btn-primary">Save</button>
-                        <a href="{{ route('admin.blog') }}" class="btn btn-secondary">Cancel</a>
+                        <button type="reset" class="btn btn-secondary text-dark">Reset</button>
+                        <a href="{{ route('admin.blog') }}" class="btn btn-secondary">Blog</a>
                     </div>
                 </div>
             </form>

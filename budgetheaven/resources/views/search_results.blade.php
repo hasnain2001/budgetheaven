@@ -12,83 +12,62 @@
         <!-- Styles -->
         <link rel="stylesheet" href="{{asset('cssfile/styles.css')}}">
         <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-        <style>
-                        .body{
-    background-color:#fff;
-}
-    .navbar-custom {
-      background-color:rgb(240,5,5); /* Bootstrap's red color */
-    }
-    .navbar-custom .navbar-brand,
-    .navbar-custom .nav-link,
-    .navbar-custom .btn {
-      color: #fff;
-    }
-    .navbar-custom .btn-outline-danger {
-      border-color: #fff;
-      color: #fff;
-    }
-    .navbar-custom .btn-outline-danger:hover {
-      background-color: #fff;
-      color: #dc3545;
-    }
-               .get {
-    color: #fff;
-    background: linear-gradient(to right, #FF416C, #FF4B2B); /* Gradient background */
-    border: 2px solid #fff; /* White border */
-    border-radius: 25px; /* Rounded border */
-    padding: 10px 20px; /* Padding */
-    font-size: 16px; /* Font size */
-    cursor: pointer; /* Cursor style */
-    transition: all 0.3s ease; /* Smooth transition */
-    box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.1); /* Box shadow */
-}
-        </style>
+     <style>
+           .get,.navbar-custom .btn,.navbar-custom .nav-link,.navbar-custom .navbar-brand{color:#fff}.navbar-custom{background-color:#f00505}.navbar-custom .btn-outline-danger{border-color:#fff;color:#fff}.navbar-custom .btn-outline-danger:hover{background-color:#fff;color:#dc3545}.get{background:linear-gradient(to right,#ff416c,#ff4b2b);border:2px solid #fff;border-radius:25px;padding:10px 20px;font-size:16px;cursor:pointer;transition:.3s;box-shadow:0 4px 5px rgba(0,0,0,.1)}.card-body{flex:1 0 auto}.anchor-search{font-family:Arial;color:#000;text-decoration:none}.anchor-search:hover{color:#000;text-decoration-color:#dc3545}.card{display:flex;flex-direction:column}.card-img-top{object-fit:cover;height:200px}.pointer{pointer-events:none}@media (max-width:767px){.card-img-top{height:auto;width:100%}}
+     </style>
 </head>
 <body class="body">
 <x-nav/>
 
-
-<div class="container"> 
-<!-- Display Stores -->
-<h3>Search Results</h3>
-<div class="main_content">
-            <div class="container">
-                <div class="row mt-3">
-          @if ($stores->isEmpty())
-    <div class="col-12">
-    <h1>No stores found.</h1>
-    </div>
-@else
-    @foreach ($stores as $store)
-        <div class="col-12 col-lg-3">
-            @if ($store->name)
-                <a href="{{ route('store_details', ['name' => Str::slug($store->name)]) }}" class="text-decoration-none">
-            @else
-                <a href="javascript:;" class="text-decoration-none">
-            @endif
-                <div class="card shadow">
-                    <div class="card-body">
-                        @if ($store->store_image)
-                            <img src="{{ asset('uploads/store/' . $store->store_image) }}" width="100%" alt="">
-                        @else
-                            <img src="{{ asset('front/assets/images/no-image-found.jpg') }}" width="100%" alt="">
-                        @endif
-                        <h5 class="card-title mt-3 mx-2">{{ isset($store->name) ? $store->name : "Title not found" }}</h5>
+<div class="container">
+    <!-- Display Stores -->
+    <h3 class="pointer">Search Results</h3>
+    <div class="main_content">
+        <div class="container">
+            <div class="row mt-3">
+                @if ($stores->isEmpty())
+                    <div class="col-12">
+                        <h1>No stores found.</h1>
                     </div>
-                </div>
-            </a>
-        </div>
-    @endforeach
-@endif
-
-                </div>
+                @else
+                    @foreach ($stores as $store)
+                        <div class="col-6 col-lg-3 mb-4 d-flex">
+                            <div class="card shadow flex-fill">
+                                <a href="{{ $store->slug ? route('store_details', ['slug' => Str::slug($store->slug)]) : 'javascript:;' }}" class="anchor-search">
+                                    <div class="card-body d-flex flex-column">
+                                        @if ($store->store_image)
+                                            <img src="{{ asset('uploads/store/' . $store->store_image) }}" class="card-img-top" alt="">
+                                        @else
+                                            <img src="{{ asset('front/assets/images/no-image-found.jpg') }}" class="card-img-top" alt="">
+                                        @endif
+                                        <h5 class="card-title mt-3 mx-2">{{ $store->name ?? 'Title not found' }}</h5>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
             </div>
         </div>
+    </div>
 </div>
-        
-<br><br><br><br><br><br><br>
- <x-footer/>
 
+<br><br>
+ <x-footer/>
+<script>
+        document.addEventListener('copy', function(e) {
+    e.preventDefault();
+    alert('Copying is disabled on this page.');
+});
+
+document.addEventListener('contextmenu', function(e) {
+    if (e.target.tagName === 'IMG') {
+        e.preventDefault();
+        alert('Saving images is disabled on this website.');
+    }
+});
+
+
+</script>
 </body>
 </html>

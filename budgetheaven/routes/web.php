@@ -12,6 +12,8 @@ use App\Http\Controllers\BlogController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\NotfoundController;
+
 use App\Models\Blog;
 
 /*
@@ -37,24 +39,19 @@ Route::get('/', function () {
 });
 
 Route::get('/about', function () {
-
     return view('about');
 })->name('about');
 Route::get('/network', function () {
 
     return view('network');
 })->name('network');
-Route::get('/tables', function () {
 
-    return view('tables');
-})->name('tables');
+
 Route::get('/contact', function () {
-
     return view('contact');
 })->name('contact');
 
-Route::get('/terms_and_condition', function () {
-
+Route::get('/terms-and-condition', function () {
     return view('terms_and_condition');
 })->name('terms_and_condition');
 
@@ -64,8 +61,9 @@ Route::get('/privacy', function () {
     return view('privacy');
 })->name('privacy');
 
-Route::get('/404', function () {  return view('privacy');
-})->name('privacy');
+Route::get('sitemap.xml',function() {
+    return response()->view('sitemap')->header('Content-Type', 'xml');});
+
 
 Route::get('coupons', [CouponsController::class, 'index'])->name('coupons.index');
 Route::put('/updateCoupon/{id}', [CouponsController::class, 'update'])->name('updateCoupon');
@@ -73,12 +71,7 @@ Route::post('/update-clicks', [CouponsController::class, 'updateClicks'])->name(
 Route::get('/clicks/{couponId}', [CouponsController::class, 'openCoupon'])->name('open.coupon');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
-Route::get('/top-stores', [HomeController::class, 'topStores'])->name('top_stores');
 Route::post('/coupons', [CouponsController::class, ''])->name('coupons.updateRanking');
-Route::get('/blog', [BlogController::class, 'blog_home'])->name('blog');
-Route::get('/blog/{title}', [BlogController::class, 'blog_show'])->name('blog-details');
-Route::get('/categories', [HomeController::class, 'categories'])->name('categories');
-Route::get('/related_category/{meta_tag}', [HomeController::class, 'viewcategory'])->name('related_category');
 Route::get('/search', [SearchController::class, 'searchResults'])->name('search');
 
 
@@ -93,10 +86,12 @@ Route::get('/run-migrations', function () {
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index');
     Route::get('/stores', 'stores')->name('stores');
-    Route::get('/store/{name}', 'StoreDetails')->name('store_details');
-    Route::get('/category/{title}', 'RelatedCategoryStores')->name('related_stores');
+    Route::get('/store/{slug}', 'StoreDetails')->name('store_details');
+    Route::get('/category/{title}', 'viewcategory')->name('related_category');
     Route::get('/categories', 'categories')->name('categories');
-        Route::get('/related-category/{title}', 'relatedcategories')->name('related_category');
+   Route::get('/blog', 'blog_home')->name('blog');
+Route::get('/blog/{slug}',  'blog_show')->name('blog-details');
+Route::fallback('notfound')->name('404');
 });
 
 Route::get('/dashboard', function () {
@@ -107,7 +102,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+
 // AdminBlogs Routes Begin
 Route::controller(BlogController::class)->prefix('admin')->group(function () {
     Route::get('/blog',  'blogs')->name('admin.blog');
@@ -164,8 +159,7 @@ Route::controller(CouponsController::class)->prefix('admin')->group(function () 
     Route::post('/coupon/update/{id}', 'update_coupon')->name('admin.coupon.update');
     Route::get('/coupon/delete/{id}', 'delete_coupon')->name('admin.coupon.delete');
     Route::post('/custom-sortable', 'update')->name('custom-sortable');
-Route::post('/coupon/deleteSelected', 'deleteSelected')->name('admin.coupon.deleteSelected');
-
+Route::post('/coupon/deleteSelected', 'deleteSelected')->name('admin.coupon.deleteSelected');});
 
 });
 require __DIR__.'/auth.php';

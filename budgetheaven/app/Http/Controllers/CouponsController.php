@@ -8,17 +8,33 @@ use App\Models\Stores;
 
 class CouponsController extends Controller
 {
-public function coupon(Request $request) {
-    if ($request->ajax()) {
-        $coupons = Coupons::all();
-        return response()->json($coupons);
+    public function coupon(Request $request) {
+        if ($request->ajax()) {
+            $coupons = Coupons::get();
+            return response()->json($coupons);
+        }
+
+        // Get distinct store names only
+        $couponstore = Coupons::select('store')->distinct()->get();
+        $selectedCoupon = $request->input('store');
+
+        // Initialize query
+        $productsQuery = Coupons::query();
+
+        // Filter by selected store if any
+        if ($selectedCoupon) {
+            $productsQuery->where('store', $selectedCoupon);
+        }
+
+
+        $coupons = $productsQuery->orderBy('created_at', 'desc')
+        ->orderBy('store')
+        ->orderByRaw('CAST(`order` AS SIGNED) ASC')
+        ->limit(1000)
+        ->get();
+        return view('admin.coupons.index', compact('coupons','couponstore','selectedCoupon'));
+
     }
-
-  $coupons = Coupons::orderByRaw('CAST(`order` AS SIGNED) asc')->get();
-
-    return view('admin.coupons.index', compact('coupons'));
-}
-
 
 public function openCoupon($couponId)
 {

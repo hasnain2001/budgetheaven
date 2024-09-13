@@ -9,7 +9,14 @@ class Blog extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'category_image','content'];
+    protected $fillable = [
+    'title',
+    'slug',
+    'category_image',
+    'content','meta_title',
+    'meta_description',
+    'meta_keyword'
+];
 
    public $timestamps = true;
 }
