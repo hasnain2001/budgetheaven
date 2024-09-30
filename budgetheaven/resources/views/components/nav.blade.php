@@ -95,6 +95,7 @@
             </ul>
           <!-- Move the search bar outside of the collapsible area -->
           <form action="{{ route('search') }}" method="GET" class="d-flex col-md-6 order-lg-last" role="search" style="max-width: 600px;">
+            @csrf
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="searchInput" name="query">
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>

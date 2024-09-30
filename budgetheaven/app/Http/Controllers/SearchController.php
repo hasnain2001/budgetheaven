@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 
 class SearchController extends Controller
 {
-    
+
 public function search(Request $request) {
     $query = $request->input('query');
 

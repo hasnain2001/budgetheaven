@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('stores', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('slug')->unique();
             $table->longText('description')->nullable();
+            $table->longText('top_store')->nullable();
             $table->string('url');
             $table->string('destination_url');
             $table->string('category')->nullable();

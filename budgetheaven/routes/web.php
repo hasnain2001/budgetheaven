@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\NotfoundController;
 
-use App\Models\Blog;
 
 /*
 /*

@@ -73,7 +73,7 @@
 <div class="container">
     <h2>User Registration</h2>
     <p>not allowed</p>
-    {{-- <form method="POST" action="{{ route('register') }}">
+    <form method="POST" action="{{ route('register') }}">
         @csrf
 
         <!-- Name -->
@@ -112,7 +112,7 @@
                 @endforeach
             </div>
         @endif
-    </form> --}}
+    </form>
 </div>
 
 <script>

@@ -20,13 +20,13 @@
     <link rel="stylesheet" href="/admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 
     <link rel="stylesheet" href="/admin/dist/css/adminlte.min2167.css?v=3.2.0">
-    
+
       <style>
             .sidebar-dark-primary {
             background-color: rgb(14, 35, 161) !important;
-            
+
         }
-                   
+
         .navbar-username {
     font-size: 2rem; /* Adjust the size as needed */
 }
@@ -78,7 +78,7 @@
 
 
 
-     
+
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
 
             <a  href="{{ route('dashboard') }}" class="brand-link">
@@ -142,7 +142,7 @@
                                 </li>
                             </ul>
                         </li>
-                        
+
                     </ul>
                 </nav>
 
@@ -208,9 +208,9 @@
                 "autoWidth": false,
                 "responsive": true,
             });
-            
+
             $('#SearchTable').DataTable();
-            
+
              $( "#tablecontents" ).sortable({
                 items: "tr",
                 cursor: 'move',
@@ -230,10 +230,10 @@
                   position: index+1
                 });
               });
-    // the Ajax Post update 
+    // the Ajax Post update
               $.ajax({
-                type: "POST", 
-                dataType: "json", 
+                type: "POST",
+                dataType: "json",
                 url: "{{ route('custom-sortable') }}",
                     data: {
                   order: order,
